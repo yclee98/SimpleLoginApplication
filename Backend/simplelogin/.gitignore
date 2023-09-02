@@ -32,4 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 
-Backend/simplelogin/src/main/resources/application.properties
+
+### Setting ###
+application.properties
