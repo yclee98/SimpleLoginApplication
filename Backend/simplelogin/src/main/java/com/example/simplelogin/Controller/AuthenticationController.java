@@ -61,6 +61,23 @@ public class AuthenticationController {
         return new ResponseEntity<>(jwtService.generateJWTToken(u), HttpStatus.OK);
     }
 
+    @GetMapping("/validatetoken")
+    public ResponseEntity<HttpStatus> validateToken(@RequestHeader Map<String, Object> userMap){
+        String authorizationHeader = (String) userMap.get("authorization");  
+        if(authorizationHeader != null){
+            String[] parts = authorizationHeader.split(" ");
+
+            if (parts.length == 2 && parts[0].equalsIgnoreCase("Bearer")) {
+                String token = parts[1];
+
+                if(jwtService.validateToken(token)){
+                    return ResponseEntity.ok(HttpStatus.OK);
+                }
+            }    
+        }            
+        return ResponseEntity.ok(HttpStatus.UNAUTHORIZED);
+    }
+    
     @GetMapping("/validaterole")
     public ResponseEntity<HttpStatus> validateRole(@RequestHeader Map<String, Object> userMap){
         String authorizationHeader = (String) userMap.get("authorization");        

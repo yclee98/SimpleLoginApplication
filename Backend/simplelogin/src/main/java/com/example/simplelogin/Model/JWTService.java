@@ -37,17 +37,26 @@ public class JWTService {
         return map;
     }   
 
-    public boolean hasManagerRole(String token) throws AuthenticationException{
+    private Claims decodeToken(String token){
         try{
             Claims claims = Jwts.parser().setSigningKey(API_SECRET_KEY)
-                .parseClaimsJws(token).getBody();
-            
-            String role = claims.get("role", String.class);
-            if(role.equalsIgnoreCase("manager")){
-                return true;
-            }
+                .parseClaimsJws(token).getBody();           
+            return claims;            
         }catch(Exception e){
             throw new AuthenticationException("Invalid/expired token");
+        }
+    }
+
+    public boolean validateToken(String token){
+        decodeToken(token);
+        return true;       
+    }
+
+    public boolean hasManagerRole(String token) throws AuthenticationException{
+        Claims claims = decodeToken(token);        
+        String role = claims.get("role", String.class);
+        if(role.equalsIgnoreCase("manager")){
+            return true;
         }
         throw new AuthenticationException("Unauthorized role");
     }
