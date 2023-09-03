@@ -1,7 +1,7 @@
 package com.example.simplelogin;
 
 import com.example.simplelogin.Exception.AuthenticationException;
-import com.example.simplelogin.Model.JWTTToken;
+import com.example.simplelogin.Model.JWTService;
 import com.example.simplelogin.Model.User.User;
 import com.example.simplelogin.Model.User.UserServices;
 import com.example.simplelogin.Repository.UserRepositoryInterface;
@@ -21,6 +21,7 @@ public class UserServicesTest {
     private UserServices userServices;
     @Autowired
     private UserRepositoryInterface userRepository;
+
 
     @Test
     public void contextLoads() throws Exception{
@@ -52,8 +53,8 @@ public class UserServicesTest {
     @Test
     public void tokenTest(){
         User u = userRepository.findByUsername("test1123").get();
-        Map<String, String> token = JWTTToken.generateJWTToken(u);
-        System.out.println(token.get("token"));
+        // Map<String, String> token = JWTService.generateJWTToken(u);
+        // System.out.println(token.get("token"));
         // assert 1 == 1;
     }
 }

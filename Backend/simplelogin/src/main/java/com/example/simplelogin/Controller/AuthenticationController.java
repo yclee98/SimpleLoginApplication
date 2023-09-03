@@ -1,18 +1,21 @@
 package com.example.simplelogin.Controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.simplelogin.Model.JWTTToken;
+import com.example.simplelogin.Model.JWTService;
 import com.example.simplelogin.Model.User.User;
 import com.example.simplelogin.Model.User.UserServicesInterface;
 
@@ -23,8 +26,12 @@ public class AuthenticationController {
     @Autowired
     private final UserServicesInterface userServices;
 
-    public AuthenticationController(UserServicesInterface userServices){
+    @Autowired
+    private final JWTService jwtService;
+
+    public AuthenticationController(UserServicesInterface userServices,JWTService jwtService){
         this.userServices = userServices;
+        this.jwtService = jwtService;
     }
 
     @GetMapping("/")
@@ -41,7 +48,7 @@ public class AuthenticationController {
         
         User u = userServices.registerUser(name, username, password, role); 
 
-        return new ResponseEntity<>(JWTTToken.generateJWTToken(u), HttpStatus.OK);
+        return new ResponseEntity<>(jwtService.generateJWTToken(u), HttpStatus.OK);
     }
 
     @PostMapping("/login")
@@ -51,6 +58,24 @@ public class AuthenticationController {
         
         User u = userServices.validateUser(username, password);        
 
-        return new ResponseEntity<>(JWTTToken.generateJWTToken(u), HttpStatus.OK);
+        return new ResponseEntity<>(jwtService.generateJWTToken(u), HttpStatus.OK);
+    }
+
+    @GetMapping("/validaterole")
+    public ResponseEntity<HttpStatus> validateRole(@RequestHeader Map<String, Object> userMap){
+        String authorizationHeader = (String) userMap.get("authorization");        
+            
+        if(authorizationHeader != null){
+            String[] parts = authorizationHeader.split(" ");
+
+            if (parts.length == 2 && parts[0].equalsIgnoreCase("Bearer")) {
+                String token = parts[1];
+
+                if(jwtService.hasManagerRole(token)){
+                    return ResponseEntity.ok(HttpStatus.OK);
+                }
+            }    
+        }            
+        return ResponseEntity.ok(HttpStatus.UNAUTHORIZED);
     }
 }
