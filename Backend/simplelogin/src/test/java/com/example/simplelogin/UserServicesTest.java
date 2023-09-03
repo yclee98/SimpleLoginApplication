@@ -2,8 +2,8 @@ package com.example.simplelogin;
 
 import com.example.simplelogin.Exception.AuthenticationException;
 import com.example.simplelogin.Model.JWTTToken;
-import com.example.simplelogin.Model.User;
-import com.example.simplelogin.Model.UserServices;
+import com.example.simplelogin.Model.User.User;
+import com.example.simplelogin.Model.User.UserServices;
 import com.example.simplelogin.Repository.UserRepositoryInterface;
 
 import static org.assertj.core.api.Assertions.assertThat;

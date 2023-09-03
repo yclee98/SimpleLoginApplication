@@ -1,4 +1,4 @@
-package com.example.simplelogin.Model;
+package com.example.simplelogin.Model.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +32,7 @@ public class UserServices implements UserServicesInterface{
 
         username = username.toLowerCase();
 
-        if(userRepository.findByUsername(username).isPresent()){
+        if(userRepository.existsByUsername(username)){
             throw new AuthenticationException("Username already exists");
         }
         

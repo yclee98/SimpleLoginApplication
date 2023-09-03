@@ -1,4 +1,4 @@
-package com.example.simplelogin.Model;
+package com.example.simplelogin.Model.User;
 
 import java.util.List;
 
