@@ -20,7 +20,7 @@ import com.example.simplelogin.Model.User.UserServicesInterface;
 
 @RestController
 @RequestMapping("/api/authentication")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins ="${cors.allow}")
 public class AuthenticationController {
     @Autowired
     private final UserServicesInterface userServices;

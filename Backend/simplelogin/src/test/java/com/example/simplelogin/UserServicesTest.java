@@ -46,12 +46,4 @@ public class UserServicesTest {
         
         assert "test1".equals(u.getName());
     }
-
-    @Test
-    public void tokenTest(){
-        User u = userRepository.findByUsername("test1123").get();
-        // Map<String, String> token = JWTService.generateJWTToken(u);
-        // System.out.println(token.get("token"));
-        // assert 1 == 1;
-    }
 }
