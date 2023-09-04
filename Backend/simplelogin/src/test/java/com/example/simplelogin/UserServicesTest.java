@@ -1,15 +1,12 @@
 package com.example.simplelogin;
 
 import com.example.simplelogin.Exception.AuthenticationException;
-import com.example.simplelogin.Model.JWTService;
 import com.example.simplelogin.Model.User.User;
 import com.example.simplelogin.Model.User.UserServices;
 import com.example.simplelogin.Repository.UserRepositoryInterface;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.junit.jupiter.api.Test;

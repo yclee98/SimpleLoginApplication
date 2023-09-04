@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,7 +47,12 @@ public class AuthenticationController {
         
         User u = userServices.registerUser(name, username, password, role); 
 
-        return new ResponseEntity<>(jwtService.generateJWTToken(u), HttpStatus.OK);
+        Map<String, String> response = new HashMap<>();
+        response.put("name", u.getName());
+        response.put("username", u.getUsername());
+        response.put("role", u.getRole());
+        response.put("token",jwtService.generateJWTToken(u));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/login")
@@ -58,7 +62,12 @@ public class AuthenticationController {
         
         User u = userServices.validateUser(username, password);        
 
-        return new ResponseEntity<>(jwtService.generateJWTToken(u), HttpStatus.OK);
+        Map<String, String> response = new HashMap<>();
+        response.put("name", u.getName());
+        response.put("username", u.getUsername());
+        response.put("role", u.getRole());
+        response.put("token",jwtService.generateJWTToken(u));
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/validatetoken")

@@ -20,7 +20,7 @@ public class JWTService {
     private String API_SECRET_KEY;
     private long TOKEN_VALIDITY = 2*60*60*1000;
     
-    public Map<String, String> generateJWTToken(User user) {
+    public String generateJWTToken(User user) {
         long timestamp = System.currentTimeMillis();
         
         String token = Jwts.builder()
@@ -32,9 +32,7 @@ public class JWTService {
             .claim("name",user.getName())
             .claim("role",user.getRole())
             .compact();
-        Map<String, String> map = new HashMap<>();
-        map.put("token", token);
-        return map;
+        return token;
     }   
 
     private Claims decodeToken(String token){

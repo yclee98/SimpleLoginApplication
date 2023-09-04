@@ -30,6 +30,10 @@ public class UserServices implements UserServicesInterface{
             throw new AuthenticationException("Empty fields");
         }
 
+        if (name=="" || username=="" || password == "" || role == ""){
+            throw new AuthenticationException("Empty fields");
+        }
+
         username = username.toLowerCase();
 
         if(userRepository.existsByUsername(username)){
@@ -46,6 +50,10 @@ public class UserServices implements UserServicesInterface{
     @Override
     public User validateUser(String username, String password) throws AuthenticationException{
         if (username == null || password == null){
+            throw new AuthenticationException("Empty fields");
+        }
+
+        if (username=="" || password == ""){
             throw new AuthenticationException("Empty fields");
         }
 
