@@ -3,8 +3,9 @@ import './LoginRegister.css'
 
 import FormLogin from './FormLogin'
 import FormRegister from './FormRegister';
-import { useLocalStorage } from '../../Utility/uselocalStorage';
+import { useLocalStorage } from '../../Utility/LocalStorageHelper';
 import { useNavigate  } from 'react-router-dom';
+import {API_AUTHENTICATION_URL} from '../../config'
 
 const LoginRegister = () => {
   console.log("login page");
@@ -18,7 +19,7 @@ const LoginRegister = () => {
     if (jwt) {
       redirectHomePage();
     }
-  }, [jwt, navigate]);
+  }, [jwt]);
 
   function redirectHomePage(){
     console.log("to home2 "+jwt)
@@ -29,7 +30,7 @@ const LoginRegister = () => {
   function sendAuthenticationRequest(endpoint, requestBody){
     console.log(`sending request jwt: ${jwt}`);    
 
-    fetch("http://localhost:8080/api/authentication/"+endpoint,{
+    fetch(API_AUTHENTICATION_URL+endpoint,{
       headers:{
         "Content-Type":"application/json",
       },
@@ -43,8 +44,10 @@ const LoginRegister = () => {
           return Promise.reject("Error: "+data['message']);
       })
     }).then(([data]) =>{
-      console.log("setting jwt"+data["token"])
-      setJwt(data["token"]);
+      console.log("setting jwt "+data["token"])
+      if(!jwt)
+        setJwt(data["token"]);
+      // redirectHomePage();
     }).catch((message)=>{
       alert(message);
     });

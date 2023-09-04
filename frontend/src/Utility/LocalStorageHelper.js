@@ -13,5 +13,8 @@ function useLocalStorage(defaultValue, key){
     return [value, setValue];
 }
 
+function clearLocalStorage(){
+    localStorage.clear();
+}
 
-export {useLocalStorage}
+export {useLocalStorage, clearLocalStorage}
