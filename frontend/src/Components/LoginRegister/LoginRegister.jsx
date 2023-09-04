@@ -3,11 +3,9 @@ import './LoginRegister.css'
 
 import FormLogin from './FormLogin'
 import FormRegister from './FormRegister';
-import { useLocalStorage } from '../../Utility/LocalStorageHelper';
 import { useNavigate  } from 'react-router-dom';
-
-import { LoginAuthenticationRequest, RegisterAuthenticaionRequest } from '../../Controller/AuthenticationController';
-
+import { useLocalStorage } from '../../Service/LocalStorageService';
+import { LoginAuthenticationRequest, RegisterAuthenticaionRequest } from '../../Service/AuthenticationService';
 const LoginRegister = () => {
   const [action,setAction] = useState("Login");
   const [jwt, setJwt] = useLocalStorage("", "jwt");

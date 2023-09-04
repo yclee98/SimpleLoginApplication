@@ -1,8 +1,7 @@
 import React from 'react'
 import MenuBar from '../Components/MenuBar/MenuBar';
 import { useNavigate } from 'react-router-dom';
-import { useLocalStorage } from '../Utility/LocalStorageHelper';
-
+import { useLocalStorage } from '../Service/LocalStorageService';
 const HomePage = () => {
   const navigate = useNavigate();
   const [username, ] = useLocalStorage("", "username");

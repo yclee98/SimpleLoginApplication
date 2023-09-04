@@ -1,5 +1,6 @@
 import React from 'react'
-import { clearLocalStorage, useLocalStorage } from '../../Utility/LocalStorageHelper';
+
+import { clearLocalStorage, useLocalStorage } from '../../Service/LocalStorageService';
 import { useNavigate } from 'react-router-dom';
 import './MenuBar.css'
 

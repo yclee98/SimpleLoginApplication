@@ -31,23 +31,6 @@ async function validateRole(jwt){
 }
 
 async function AuthenticationPostRequest(endpoint, requestBody){
-    // return fetch(API_AUTHENTICATION_URL+endpoint,{
-    //   headers:{
-    //     "Content-Type":"application/json",
-    //   },
-    //   method:"post",
-    //   body: JSON.stringify(requestBody)
-    // }).then(response=>{
-    //   if (response.status === 200)
-    //     return Promise.all([response.json()]);
-    //   else
-    //     return response.json().then((data)=>{
-    //       return Promise.reject(data['message']);
-    //   })
-    // }).catch((message)=>{
-    //     return Promise.reject(message);
-    // });
-
     try {
         const response = await fetch(API_AUTHENTICATION_URL + endpoint, {
             headers: {
