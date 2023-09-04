@@ -1,17 +1,90 @@
-import { Component } from "react";
+import { API_AUTHENTICATION_URL } from '../config';
 
-function myPromiseFunction() {
-    return new Promise((resolve, reject) => {
-      // Your asynchronous logic goes here
-      // You can use setTimeout as a simple example
-  
-      setTimeout(() => {
-        const condition = true; // Replace with your logic
-        if (condition) {
-          resolve("Promise resolved successfully!"); // Resolve the promise
+
+async function AuthencationGetRequest(endpoint, jwt){
+    try {
+        const response = await fetch(API_AUTHENTICATION_URL + endpoint, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + jwt,
+          },
+          method: "get",
+        });
+    
+        if (response.status === 200) {
+          return;
         } else {
-          reject("Promise rejected with an error!"); // Reject the promise
+          const data = await response.json();
+          return Promise.reject(data['message']);
         }
-      }, 2000); // Simulate an async operation
-    });
-  }
+    } catch (error) {
+        return Promise.reject("Error: " + error.message);
+    }
+}
+
+async function validateToken(jwt){
+    return AuthencationGetRequest("validatetoken", jwt)   
+}
+
+async function validateRole(jwt){
+    return AuthencationGetRequest("validaterole", jwt);
+}
+
+async function AuthenticationPostRequest(endpoint, requestBody){
+    // return fetch(API_AUTHENTICATION_URL+endpoint,{
+    //   headers:{
+    //     "Content-Type":"application/json",
+    //   },
+    //   method:"post",
+    //   body: JSON.stringify(requestBody)
+    // }).then(response=>{
+    //   if (response.status === 200)
+    //     return Promise.all([response.json()]);
+    //   else
+    //     return response.json().then((data)=>{
+    //       return Promise.reject(data['message']);
+    //   })
+    // }).catch((message)=>{
+    //     return Promise.reject(message);
+    // });
+
+    try {
+        const response = await fetch(API_AUTHENTICATION_URL + endpoint, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            method: "post",
+            body: JSON.stringify(requestBody),
+        });
+    
+        if (response.status === 200) {
+            const data = await response.json();
+            return Promise.all([data]);
+        } else {
+            const data = await response.json();
+            return Promise.reject(data['message']); 
+        }
+    } catch (error) {
+        return Promise.reject("Error: " + error.message);
+    }
+}
+
+async function LoginAuthenticationRequest(username, password){
+    const requestBody = {
+        username: username,
+        password: password,
+    };
+    return AuthenticationPostRequest("login", requestBody)
+}
+
+async function RegisterAuthenticaionRequest(username, password, name, role){
+    const requestBody ={
+        username:username,
+        password:password,
+        name:name,
+        role:role
+    }
+    return AuthenticationPostRequest("register", requestBody);
+}
+
+export {LoginAuthenticationRequest, RegisterAuthenticaionRequest, validateRole, validateToken}

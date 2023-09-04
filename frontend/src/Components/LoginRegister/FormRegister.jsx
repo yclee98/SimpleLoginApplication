@@ -47,7 +47,7 @@ const FormRegister = ({onFormSubmit}) => {
       <div className='submit-button' onClick={()=>onFormSubmit(username, password, name, role)}>Submit</div> 
     </div> 
 
-    </>   
+    </>  
   )
 }
 

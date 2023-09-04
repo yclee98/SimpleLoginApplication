@@ -9,40 +9,47 @@ import { useNavigate  } from 'react-router-dom';
 import { LoginAuthenticationRequest, RegisterAuthenticaionRequest } from '../../Controller/AuthenticationController';
 
 const LoginRegister = () => {
-  console.log("login page");
-
   const [action,setAction] = useState("Login");
   const [jwt, setJwt] = useLocalStorage("", "jwt");
+  const [, setUsername] = useLocalStorage("", "username");
+  const [, setName] = useLocalStorage("", "name");
+  const [, setRole] = useLocalStorage("", "role");
+  
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log('JWT has changed:', jwt);
     if (jwt) {
       redirectHomePage();
     }
-  }, [jwt]);
+  }, [jwt,redirectHomePage]);
 
   function redirectHomePage(){
-    console.log("to home2 "+jwt)
     navigate('/home');
     // window.location.href = 'home';
   };
 
   function handleLoginSubmitClick(username, password){
-    console.log("login " + username + " "  + password);
     LoginAuthenticationRequest(username, password).then(([data])=>{
-    if(!jwt)
-        setJwt(data["token"]);
+    if(!jwt){
+      setJwt(data["token"]);
+      setUsername(data["username"]);
+      setRole(data["role"]);
+      setName(data["name"]);
+    }
     }).catch((message)=>{
       alert("Error: " + message);
     })
   };
 
   function handleRegisterSubmitClick(username, password, name, role){
-    console.log("register "+ username + name + password + role);
     RegisterAuthenticaionRequest(username, password, name, role).then(([data])=>{
-    if(!jwt)
-        setJwt(data["token"]);
+    if(!jwt){
+      setJwt(data["token"]);
+      setUsername(data["username"]);
+      setRole(data["role"]);
+      setName(data["name"]);
+    }
+        
     }).catch((message)=>{
       alert("Error: " + message);
     })
@@ -68,10 +75,9 @@ const LoginRegister = () => {
           action==="Login"?<FormLogin onFormSubmit={handleLoginSubmitClick}></FormLogin>:
           <FormRegister onFormSubmit={handleRegisterSubmitClick}></FormRegister>
         }
-        </div>
-
-        
+        </div>        
       </div>
+
     </>
   )
 }

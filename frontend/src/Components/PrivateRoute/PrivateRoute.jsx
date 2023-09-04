@@ -1,19 +1,15 @@
 import React, { useState } from 'react'
 import { useLocalStorage } from '../../Utility/LocalStorageHelper';
 import {Navigate} from 'react-router-dom';
-import {API_AUTHENTICATION_URL} from '../../config' 
 import { validateRole, validateToken } from '../../Controller/AuthenticationController';
 
 // only authenticated users are allowed to be inside private rote
 const PrivateRoute = (props) => {
-  console.log("private route")
   const { role, fallbackpath, children } = props;
-
   const [jwt, setJwt] = useLocalStorage(null,"jwt");
   const [isLoading, setIsLoading] = useState(false);
   const [isValid, setIsValid] = useState(null);
   const [isValidRole, setIsValidRole] = useState(null);
-  console.log(isLoading + " " + isValid + " " + isValidRole);
 
   //set isValid for valid token and isValidRole for manager role 
   if(isValid === null && isValidRole === null && isLoading !== true && jwt){

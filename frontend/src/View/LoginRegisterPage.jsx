@@ -1,10 +1,11 @@
 import React from 'react'
 import LoginRegister from '../Components/LoginRegister/LoginRegister'
+import MenuBar from '../Components/MenuBar/MenuBar';
 
 const LoginRegisterPage = () => {
-  console.log("login register page")
   return (
     <div>
+      <MenuBar></MenuBar>
       <LoginRegister/>
     </div>
   )

@@ -1,26 +1,24 @@
 import React from 'react'
-import { clearLocalStorage } from '../../Utility/LocalStorageHelper';
+import { clearLocalStorage, useLocalStorage } from '../../Utility/LocalStorageHelper';
 import { useNavigate } from 'react-router-dom';
-import { AppBar, Stack, Toolbar, Button } from '@mui/material';
+import './MenuBar.css'
 
 const MenuBar = () => {
+    const [jwt, ] = useLocalStorage("", "jwt");
     const navigate = useNavigate();
 
     function handleLogoutClick(){
-        console.log("loggout click")
         clearLocalStorage();    
         navigate("/");
     }
 
     return (
         <div>
-            <AppBar position="static">
-                <Toolbar style={{justifyContent:'flex-end'}}>
-                    <Stack direction='row'>
-                        <Button color='inherit' onClick={handleLogoutClick}>Logout</Button>
-                    </Stack>
-                </Toolbar>
-            </AppBar>
+            <ul>
+                <li><div className='text'>EN/CN</div></li>
+                {jwt?<li><div className='text' onClick={handleLogoutClick}>Logout</div></li>:<></>}
+                
+            </ul>
       </div>   
     )
 }
