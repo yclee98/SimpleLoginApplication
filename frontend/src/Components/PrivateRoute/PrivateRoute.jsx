@@ -41,8 +41,6 @@ const PrivateRoute = (props) => {
     }else{
         if(isValidRole === true)
           return children
-        else
-          alert("No access");
     }
     return <Navigate to={fallbackpath}/>;
   }

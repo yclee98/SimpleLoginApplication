@@ -1,0 +1,36 @@
+services:
+  database:
+    image: postgres
+    container_name: postgresql_container
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: SimpleLoginDB
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+  
+  backend:
+    container_name: backend_container
+    build:
+      dockerfile: ./Backend/simplelogin/Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      db_hostname: jdbc:postgresql://database:5432/SimpleLoginDB
+      db_username: postgres
+      db_password: postgres
+      frontend_hostname: http://frontend:3000
+    depends_on:
+      - database
+    
+  frontend:
+    build:
+      dockerfile: ./frontend/Dockerfile
+    container_name: frontend_container
+    ports:
+      - 3000:3000
+    environment:
+      backend_hostname: http://backend:8080/api/authentication/
+    depends_on:
+      - backend
+    

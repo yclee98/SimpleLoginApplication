@@ -63,6 +63,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>backend_login_app</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
