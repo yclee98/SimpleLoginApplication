@@ -5,7 +5,8 @@ import FormLogin from './FormLogin'
 import FormRegister from './FormRegister';
 import { useLocalStorage } from '../../Utility/LocalStorageHelper';
 import { useNavigate  } from 'react-router-dom';
-import {API_AUTHENTICATION_URL} from '../../config'
+
+import { LoginAuthenticationRequest, RegisterAuthenticaionRequest } from '../../Controller/AuthenticationController';
 
 const LoginRegister = () => {
   console.log("login page");
@@ -25,56 +26,27 @@ const LoginRegister = () => {
     console.log("to home2 "+jwt)
     navigate('/home');
     // window.location.href = 'home';
-  }
-
-  function sendAuthenticationRequest(endpoint, requestBody){
-    console.log(`sending request jwt: ${jwt}`);    
-
-    fetch(API_AUTHENTICATION_URL+endpoint,{
-      headers:{
-        "Content-Type":"application/json",
-      },
-      method:"post",
-      body: JSON.stringify(requestBody)
-    }).then(response=>{
-      if (response.status === 200)
-        return Promise.all([response.json()]);
-      else
-        return response.json().then((data)=>{
-          return Promise.reject("Error: "+data['message']);
-      })
-    }).then(([data]) =>{
-      console.log("setting jwt "+data["token"])
-      if(!jwt)
-        setJwt(data["token"]);
-      // redirectHomePage();
-    }).catch((message)=>{
-      alert(message);
-    });
-  }
+  };
 
   function handleLoginSubmitClick(username, password){
     console.log("login " + username + " "  + password);
-    const requestBody = {
-      username: username,
-      password: password,
-    };
-    
-    sendAuthenticationRequest("login", requestBody);
-    console.log("hoho")
+    LoginAuthenticationRequest(username, password).then(([data])=>{
+    if(!jwt)
+        setJwt(data["token"]);
+    }).catch((message)=>{
+      alert("Error: " + message);
+    })
   };
 
   function handleRegisterSubmitClick(username, password, name, role){
     console.log("register "+ username + name + password + role);
-    const requestBody ={
-      username:username,
-      password:password,
-      name:name,
-      role:role
-    }
-    sendAuthenticationRequest("register", requestBody);
-    console.log("done register")
-  }
+    RegisterAuthenticaionRequest(username, password, name, role).then(([data])=>{
+    if(!jwt)
+        setJwt(data["token"]);
+    }).catch((message)=>{
+      alert("Error: " + message);
+    })
+  };
 
   return (
     <>

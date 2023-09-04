@@ -14,15 +14,11 @@ const HomePage = () => {
     <div>
       <MenuBar></MenuBar>
       <h1>Welcome</h1>
-
-      <Box
-        display="flex"
-        justifyContent="center"
-        alignItems="center">
-      <Button variant="contained" color="primary" 
-        onClick={handleRestrictedClick}>
-        Restriced page
-      </Button>
+      <Box display="flex" justifyContent="center" alignItems="center">
+        <Button variant="contained" color="primary" 
+          onClick={handleRestrictedClick}>
+          Restriced page
+        </Button>
     </Box>
     </div>
   );   

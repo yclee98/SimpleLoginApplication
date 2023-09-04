@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { useLocalStorage } from '../../Utility/LocalStorageHelper';
 import {Navigate} from 'react-router-dom';
 import {API_AUTHENTICATION_URL} from '../../config' 
+import { validateRole, validateToken } from '../../Controller/AuthenticationController';
 
 // only authenticated users are allowed to be inside private rote
 const PrivateRoute = (props) => {
-  console.log("private rote1111");
+  console.log("private route")
   const { role, fallbackpath, children } = props;
-  console.log(props)
 
   const [jwt, setJwt] = useLocalStorage(null,"jwt");
   const [isLoading, setIsLoading] = useState(false);
@@ -15,48 +15,25 @@ const PrivateRoute = (props) => {
   const [isValidRole, setIsValidRole] = useState(null);
   console.log(isLoading + " " + isValid + " " + isValidRole);
 
+  //set isValid for valid token and isValidRole for manager role 
   if(isValid === null && isValidRole === null && isLoading !== true && jwt){
     setIsLoading(true);
-    fetch(API_AUTHENTICATION_URL+"validatetoken",{
-      headers:{
-        "Content-Type":"application/json",
-        "Authorization":"Bearer "+jwt,
-      },
-      method:"get",
-    }).then((response)=>{
-      if (response.status === 200){
-        console.log("valid for token");
-          setIsValid(true);        
-      }
-      else{
-          setIsValid(false);      
-      }
+    validateToken(jwt).then(()=>{
+      setIsValid(true);
       setIsLoading(false);
     }).catch((error)=>{
-      setIsLoading(false);
       setIsValid(false);
+      setIsLoading(false);
       setJwt(null);
     })
 
-    fetch(API_AUTHENTICATION_URL+"validaterole",{
-      headers:{
-        "Content-Type":"application/json",
-        "Authorization":"Bearer "+jwt,
-      },
-      method:"get",
-    }).then((response)=>{
-      if (response.status === 200){
-        console.log("valid for role");
-          setIsValidRole(true);        
-      }
-      else{
-        setIsValidRole(false);      
-      }
+    validateRole(jwt).then(()=>{
+      setIsValidRole(true);
       setIsLoading(false);
     }).catch((error)=>{
-      setIsLoading(false);
       setIsValidRole(false);
-    })    
+      setIsLoading(false);
+    })
   }
 
   if(isLoading)
