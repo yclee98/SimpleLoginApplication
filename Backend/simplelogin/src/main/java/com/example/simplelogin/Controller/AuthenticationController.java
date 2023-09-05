@@ -44,30 +44,41 @@ public class AuthenticationController {
         String username = (String) userMap.get("username");
         String password = (String) userMap.get("password");
         String role = (String) userMap.get("role");
-        
-        User u = userServices.registerUser(name, username, password, role); 
-
         Map<String, String> response = new HashMap<>();
-        response.put("name", u.getName());
-        response.put("username", u.getUsername());
-        response.put("role", u.getRole());
-        response.put("token",jwtService.generateJWTToken(u));
-        return new ResponseEntity<>(response, HttpStatus.OK);
+
+        try{
+            User u = userServices.registerUser(name, username, password, role);        
+            response.put("name", u.getName());
+            response.put("username", u.getUsername());
+            response.put("role", u.getRole());
+            response.put("token",jwtService.generateJWTToken(u));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch(Exception e){
+            response.put("message", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        }
+        
+        
     }
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> loginUser(@RequestBody Map<String, Object> userMap){
         String username = (String) userMap.get("username");
         String password = (String) userMap.get("password");
-        
-        User u = userServices.validateUser(username, password);        
-
         Map<String, String> response = new HashMap<>();
-        response.put("name", u.getName());
-        response.put("username", u.getUsername());
-        response.put("role", u.getRole());
-        response.put("token",jwtService.generateJWTToken(u));
-        return new ResponseEntity<>(response, HttpStatus.OK);
+
+        try{
+            User u = userServices.validateUser(username, password);        
+            response.put("name", u.getName());
+            response.put("username", u.getUsername());
+            response.put("role", u.getRole());
+            response.put("token",jwtService.generateJWTToken(u));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch(Exception e){
+            response.put("message", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+        }
+        
     }
 
     @GetMapping("/validatetoken")
