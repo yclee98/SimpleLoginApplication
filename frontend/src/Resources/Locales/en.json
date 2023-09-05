@@ -1,0 +1,15 @@
+{
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "username": "Username",
+    "password": "Password",
+    "name": "Name",
+    "role": "Role",
+    "role_user": "User",
+    "role_manager": "Manager",
+    "submit":"Submit",
+    "loading": "Loading",
+    "restricted": "restricted",
+    "welcome_text": "Welcome "
+}

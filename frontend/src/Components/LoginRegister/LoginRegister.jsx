@@ -4,9 +4,14 @@ import './LoginRegister.css'
 import FormLogin from './FormLogin'
 import FormRegister from './FormRegister';
 import { useNavigate  } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useLocalStorage } from '../../Service/LocalStorageService';
 import { LoginAuthenticationRequest, RegisterAuthenticaionRequest } from '../../Service/AuthenticationService';
+
+
 const LoginRegister = () => {
+  const {t} = useTranslation(); 
+
   const [action,setAction] = useState("Login");
   const [jwt, setJwt] = useLocalStorage("", "jwt");
   const [, setUsername] = useLocalStorage("", "username");
@@ -19,7 +24,7 @@ const LoginRegister = () => {
     if (jwt) {
       redirectHomePage();
     }
-  }, [jwt,redirectHomePage]);
+  }, [jwt]);
 
   function redirectHomePage(){
     navigate('/home');
@@ -58,12 +63,12 @@ const LoginRegister = () => {
       <div className='container'>
         <div className='headers-container'>
           <div className='header'>
-            <div className='text' onClick={()=>(setAction("Login"))}>Login</div>
+            <div className='text' onClick={()=>(setAction("Login"))}>{t("login")}</div>
             <div className={action==="Login"?"underline":null}></div>
           </div>
 
           <div className='header'>
-            <div className='text' onClick={()=>(setAction("Register"))}>Register</div>
+            <div className='text' onClick={()=>(setAction("Register"))}>{t("register")}</div>
             <div className={action==="Register"?"underline":null}></div>
           </div>
         </div>
