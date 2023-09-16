@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.simplelogin.Model.JWT.JWTService;
+import com.example.simplelogin.Model.JWT.JWTServiceInterface;
 import com.example.simplelogin.Model.User.User;
 import com.example.simplelogin.Model.User.UserServicesInterface;
 
@@ -26,16 +27,11 @@ public class AuthenticationController {
     private final UserServicesInterface userServices;
 
     @Autowired
-    private final JWTService jwtService;
+    private final JWTServiceInterface jwtService;
 
     public AuthenticationController(UserServicesInterface userServices,JWTService jwtService){
         this.userServices = userServices;
         this.jwtService = jwtService;
-    }
-
-    @GetMapping("/")
-    public String indexPage(){
-        return "welcome";
     }
 
     @PostMapping("/register")

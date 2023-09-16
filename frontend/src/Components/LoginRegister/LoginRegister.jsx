@@ -6,7 +6,7 @@ import FormRegister from './FormRegister';
 import { useNavigate  } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLocalStorage } from '../../Service/LocalStorageService';
-import { LoginAuthenticationRequest, RegisterAuthenticaionRequest } from '../../Service/AuthenticationService';
+import { loginAuthenticationRequest, registerAuthenticaionRequest } from '../../Service/AuthenticationService';
 
 
 const LoginRegister = () => {
@@ -32,7 +32,7 @@ const LoginRegister = () => {
   };
 
   function handleLoginSubmitClick(username, password){
-    LoginAuthenticationRequest(username, password).then(([data])=>{
+    loginAuthenticationRequest(username, password).then(([data])=>{
     if(!jwt){
       setJwt(data["token"]);
       setUsername(data["username"]);
@@ -45,7 +45,7 @@ const LoginRegister = () => {
   };
 
   function handleRegisterSubmitClick(username, password, name, role){
-    RegisterAuthenticaionRequest(username, password, name, role).then(([data])=>{
+    registerAuthenticaionRequest(username, password, name, role).then(([data])=>{
     if(!jwt){
       setJwt(data["token"]);
       setUsername(data["username"]);

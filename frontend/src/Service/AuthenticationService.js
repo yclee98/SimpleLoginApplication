@@ -1,7 +1,7 @@
 import { API_AUTHENTICATION_URL } from '../config';
 
 
-async function AuthencationGetRequest(endpoint, jwt){
+async function authencationGetRequest(endpoint, jwt){
     try {
         const response = await fetch(API_AUTHENTICATION_URL + endpoint, {
           headers: {
@@ -23,14 +23,14 @@ async function AuthencationGetRequest(endpoint, jwt){
 }
 
 async function validateToken(jwt){
-    return AuthencationGetRequest("validatetoken", jwt)   
+    return authencationGetRequest("validatetoken", jwt)   
 }
 
 async function validateRole(jwt){
-    return AuthencationGetRequest("validaterole", jwt);
+    return authencationGetRequest("validaterole", jwt);
 }
 
-async function AuthenticationPostRequest(endpoint, requestBody){
+async function authenticationPostRequest(endpoint, requestBody){
     try {
         const response = await fetch(API_AUTHENTICATION_URL + endpoint, {
             headers: {
@@ -52,22 +52,22 @@ async function AuthenticationPostRequest(endpoint, requestBody){
     }
 }
 
-async function LoginAuthenticationRequest(username, password){
+async function loginAuthenticationRequest(username, password){
     const requestBody = {
         username: username,
         password: password,
     };
-    return AuthenticationPostRequest("login", requestBody)
+    return authenticationPostRequest("login", requestBody)
 }
 
-async function RegisterAuthenticaionRequest(username, password, name, role){
+async function registerAuthenticaionRequest(username, password, name, role){
     const requestBody ={
         username:username,
         password:password,
         name:name,
         role:role
     }
-    return AuthenticationPostRequest("register", requestBody);
+    return authenticationPostRequest("register", requestBody);
 }
 
-export {LoginAuthenticationRequest, RegisterAuthenticaionRequest, validateRole, validateToken}
+export {loginAuthenticationRequest, registerAuthenticaionRequest, validateRole, validateToken}
