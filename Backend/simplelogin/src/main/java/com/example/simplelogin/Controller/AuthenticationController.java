@@ -6,6 +6,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,9 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.simplelogin.Model.JWT.JWTService;
+import com.example.simplelogin.Model.JWT.JWTService2;
 import com.example.simplelogin.Model.JWT.JWTServiceInterface;
+import com.example.simplelogin.Model.User.Role;
 import com.example.simplelogin.Model.User.User;
 import com.example.simplelogin.Model.User.UserServicesInterface;
+import com.example.simplelogin.View.AuthenticationResponse;
+import com.example.simplelogin.View.ErrorResponse;
+import com.example.simplelogin.View.LoginRequest;
+import com.example.simplelogin.View.RegisterRequest;
+import com.example.simplelogin.View.RequestResponseInterface;
 
 @RestController
 @RequestMapping("/api/authentication")
@@ -29,9 +38,34 @@ public class AuthenticationController {
     @Autowired
     private final JWTServiceInterface jwtService;
 
-    public AuthenticationController(UserServicesInterface userServices,JWTService jwtService){
+    @Autowired
+    private final JWTService2 jwtService2;
+
+    @Autowired
+    private final AuthenticationManager authenticationManager;
+
+    public AuthenticationController(UserServicesInterface userServices, JWTServiceInterface jwtService,
+            JWTService2 jwtService2, AuthenticationManager authenticationManager) {
         this.userServices = userServices;
         this.jwtService = jwtService;
+        this.jwtService2 = jwtService2;
+        this.authenticationManager = authenticationManager;
+    }
+
+    @PostMapping("/register2")
+    public ResponseEntity<RequestResponseInterface> registerUser2(@RequestBody RegisterRequest request){
+        try{
+            User user = userServices.registerUser(
+                request.getName(), 
+                request.getUsername(),
+                request.getPassword(),
+                request.getRole());
+            String jwtToken = jwtService2.generatToken(user);
+            return new ResponseEntity<>(new AuthenticationResponse(jwtToken), HttpStatus.OK);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @PostMapping("/register")
@@ -43,7 +77,7 @@ public class AuthenticationController {
         Map<String, String> response = new HashMap<>();
 
         try{
-            User u = userServices.registerUser(name, username, password, role);        
+            User u = userServices.registerUser(name, username, password, Role.MANAGER);        
             response.put("name", u.getName());
             response.put("username", u.getUsername());
             response.put("role", u.getRole());
@@ -53,8 +87,21 @@ public class AuthenticationController {
             response.put("message", e.getMessage());
             return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
         }
-        
-        
+    }
+    
+    @PostMapping("/login2")
+    public ResponseEntity<RequestResponseInterface> loginUser2(@RequestBody LoginRequest request){
+        try{
+            authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+            );
+            User user = userServices.getUserByUsername(request.getUsername());
+            String jwtToken = jwtService2.generatToken(user);
+            return new ResponseEntity<>(new AuthenticationResponse(jwtToken), HttpStatus.OK);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(new ErrorResponse(e.getMessage()), HttpStatus.UNAUTHORIZED);
+        }
     }
 
     @PostMapping("/login")

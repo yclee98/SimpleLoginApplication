@@ -28,12 +28,12 @@ public class UserServices implements UserServicesInterface, UserDetailsService{
     }
     
     @Override
-    public User registerUser(String name, String username, String password, String role) throws AuthenticationException{
+    public User registerUser(String name, String username, String password, Role role) throws AuthenticationException{
         if (name==null || username==null || password == null || role == null){
             throw new AuthenticationException("Empty fields");
         }
 
-        if (name=="" || username=="" || password == "" || role == ""){
+        if (name=="" || username=="" || password == ""){
             throw new AuthenticationException("Empty fields");
         }
 
@@ -44,7 +44,7 @@ public class UserServices implements UserServicesInterface, UserDetailsService{
         }
 
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
-        User u = new User(name, username, hashedPassword, Role.MANAGER);
+        User u = new User(name, username, hashedPassword, role);
         userRepository.save(u);
         
         return u;
@@ -100,5 +100,10 @@ public class UserServices implements UserServicesInterface, UserDetailsService{
             .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
+    @Override
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+            .orElseThrow(()->new AuthenticationException("User not found"));
+    }
        
 }

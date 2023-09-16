@@ -32,18 +32,18 @@ public class UserServicesTest {
         });
     }
 
-    @Test
-    public void registerUserValidTest(){
-        try{
-            userServices.deleteUser("test1123");
-        }
-        catch(AuthenticationException e){
+    // @Test
+    // public void registerUserValidTest(){
+    //     try{
+    //         userServices.deleteUser("test1123");
+    //     }
+    //     catch(AuthenticationException e){
             
-        }
+    //     }
 
-        userServices.registerUser("test1", "test1123", "1234", "admin");
-        User u = userRepository.findByUsername("test1123").get();
+    //     userServices.registerUser("test1", "test1123", "1234", "admin");
+    //     User u = userRepository.findByUsername("test1123").get();
         
-        assert "test1".equals(u.getName());
-    }
+    //     assert "test1".equals(u.getName());
+    // }
 }

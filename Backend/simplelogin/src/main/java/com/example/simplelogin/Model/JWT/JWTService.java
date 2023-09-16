@@ -51,7 +51,7 @@ public class JWTService implements JWTServiceInterface{
     }
 
     @Override
-    public boolean hasManagerRole(String token) throws AuthenticationException{
+    public boolean hasManagerRole(String token){
         Claims claims = decodeToken(token);        
         String role = claims.get("role", String.class);
         if(role.equalsIgnoreCase("manager")){
