@@ -39,9 +39,9 @@ public class UserServices implements UserServicesInterface{
         if(userRepository.existsByUsername(username)){
             throw new AuthenticationException("Username already exists");
         }
-        
+
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
-        User u = new User(name, username, hashedPassword, role);
+        User u = new User(name, username, hashedPassword, Role.MANAGER);
         userRepository.save(u);
         
         return u;

@@ -38,7 +38,7 @@ public class User implements UserDetails{
 
     }
 
-    public User(String name, String username, String password,  Role role) {
+    public User(String name, String username, String password, Role role) {
         this.name = name;
         this.username = username;
         this.password = password;
@@ -69,8 +69,8 @@ public class User implements UserDetails{
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
+    public String getRole() {
+        return role.name();
     }
 
     public void setRole(Role role) {
