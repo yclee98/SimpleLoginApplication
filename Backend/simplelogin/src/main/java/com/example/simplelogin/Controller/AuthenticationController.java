@@ -14,10 +14,18 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.simplelogin.APIRequestResponse.AuthenticatedResponse;
+import com.example.simplelogin.APIRequestResponse.AuthenticationRequestHeader;
+import com.example.simplelogin.APIRequestResponse.ErrorResponse;
+import com.example.simplelogin.APIRequestResponse.LoginRequest;
+import com.example.simplelogin.APIRequestResponse.RegisterRequest;
+import com.example.simplelogin.APIRequestResponse.ResponseInterface;
 import com.example.simplelogin.Model.JWT.JWTService;
 import com.example.simplelogin.Model.JWT.JWTServiceInterface;
 import com.example.simplelogin.Model.User.User;
 import com.example.simplelogin.Model.User.UserServicesInterface;
+
+import io.jsonwebtoken.Header;
 
 @RestController
 @RequestMapping("/api/authentication")
@@ -35,51 +43,41 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> registerUser(@RequestBody Map<String, Object> userMap){
-        String name = (String) userMap.get("name");
-        String username = (String) userMap.get("username");
-        String password = (String) userMap.get("password");
-        String role = (String) userMap.get("role");
-        Map<String, String> response = new HashMap<>();
+    public ResponseEntity<ResponseInterface> registerUser(@RequestBody RegisterRequest request){
+        String name = request.getName();
+        String username = request.getUsername();
+        String password = request.getPassword();
+        String role = request.getRole();
 
         try{
-            User u = userServices.registerUser(name, username, password, role);        
-            response.put("name", u.getName());
-            response.put("username", u.getUsername());
-            response.put("role", u.getRole());
-            response.put("token",jwtService.generateJWTToken(u));
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            User u = userServices.registerUser(name, username, password, role);
+            ResponseInterface r = new AuthenticatedResponse(u.getName(), u.getUsername(), u.getRole(), jwtService.generateJWTToken(u));
+            return new ResponseEntity<>(r, HttpStatus.OK);
         }catch(Exception e){
-            response.put("message", e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+            ResponseInterface r = new ErrorResponse(e.getMessage());
+            return new ResponseEntity<>(r, HttpStatus.UNAUTHORIZED);
         }
-        
-        
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> loginUser(@RequestBody Map<String, Object> userMap){
-        String username = (String) userMap.get("username");
-        String password = (String) userMap.get("password");
-        Map<String, String> response = new HashMap<>();
+    public ResponseEntity<ResponseInterface> loginUser(@RequestBody LoginRequest request){
+        String username = request.getUsername();
+        String password = request.getPassword();
 
         try{
             User u = userServices.validateUser(username, password);        
-            response.put("name", u.getName());
-            response.put("username", u.getUsername());
-            response.put("role", u.getRole());
-            response.put("token",jwtService.generateJWTToken(u));
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            ResponseInterface r = new AuthenticatedResponse(u.getName(), u.getUsername(), u.getRole(), jwtService.generateJWTToken(u));
+            return new ResponseEntity<>(r, HttpStatus.OK);
         }catch(Exception e){
-            response.put("message", e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+            ResponseInterface r = new ErrorResponse(e.getMessage());
+            return new ResponseEntity<>(r, HttpStatus.UNAUTHORIZED);
         }
         
     }
 
     @GetMapping("/validatetoken")
-    public ResponseEntity<HttpStatus> validateToken(@RequestHeader Map<String, Object> userMap){
-        String authorizationHeader = (String) userMap.get("authorization");  
+    public ResponseEntity<HttpStatus> validateToken(@RequestHeader("authorization") AuthenticationRequestHeader header){
+        String authorizationHeader = header.getAuthorization();  
         if(authorizationHeader != null){
             String[] parts = authorizationHeader.split(" ");
 
@@ -95,8 +93,8 @@ public class AuthenticationController {
     }
     
     @GetMapping("/validaterole")
-    public ResponseEntity<HttpStatus> validateRole(@RequestHeader Map<String, Object> userMap){
-        String authorizationHeader = (String) userMap.get("authorization");        
+    public ResponseEntity<HttpStatus> validateRole(@RequestHeader("authorization") AuthenticationRequestHeader header){
+        String authorizationHeader = header.getAuthorization();       
             
         if(authorizationHeader != null){
             String[] parts = authorizationHeader.split(" ");
