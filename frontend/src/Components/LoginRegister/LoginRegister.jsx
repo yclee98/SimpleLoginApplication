@@ -33,7 +33,7 @@ const LoginRegister = () => {
 
   function handleLoginSubmitClick(username, password){
     loginAuthenticationRequest(username, password).then(([data])=>{
-    if(!jwt){
+    if(!jwt){ //when jwt is null
       setJwt(data["token"]);
       setUsername(data["username"]);
       setRole(data["role"]);
@@ -46,7 +46,7 @@ const LoginRegister = () => {
 
   function handleRegisterSubmitClick(username, password, name, role){
     registerAuthenticaionRequest(username, password, name, role).then(([data])=>{
-    if(!jwt){
+    if(!jwt){ //when jwt is null
       setJwt(data["token"]);
       setUsername(data["username"]);
       setRole(data["role"]);
