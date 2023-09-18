@@ -1,6 +1,5 @@
-package com.example.simplelogin.Model.User;
+package com.example.simplelogin.Model.Authentication;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -8,22 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.simplelogin.Exception.AuthenticationException;
-import com.example.simplelogin.Repository.UserRepositoryInterface;
+import com.example.simplelogin.Model.User.User;
+import com.example.simplelogin.Model.User.UserService;
 
 @Service
-public class UserServices implements UserServicesInterface{
+public class AuthenticationService implements AuthenticationServiceInterface{
     @Autowired
-    private final UserRepositoryInterface userRepository;
-
-    public UserServices(UserRepositoryInterface userRepository){
-        this.userRepository = userRepository;
-    }
-
-    @Override
-    public List<User> getAllUser() {
-        return userRepository.findAll();
-    }
+    private final UserService userServices;
     
+    public AuthenticationService(UserService userServices) {
+        this.userServices = userServices;
+    }
+
     @Override
     public User registerUser(String name, String username, String password, String role) throws AuthenticationException{
         if (name==null || username==null || password == null || role == null){
@@ -36,13 +31,13 @@ public class UserServices implements UserServicesInterface{
 
         username = username.toLowerCase();
 
-        if(userRepository.existsByUsername(username)){
+        if(userServices.ifUserExists(username)){
             throw new AuthenticationException("Username already exists");
         }
         
         String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt(10));
         User u = new User(name, username, hashedPassword, role);
-        userRepository.save(u);
+        userServices.registerUser(u);
         
         return u;
     }
@@ -58,7 +53,7 @@ public class UserServices implements UserServicesInterface{
         }
 
         username = username.toLowerCase();
-        Optional<User> u = userRepository.findByUsername(username);
+        Optional<User> u = userServices.getUserByUsername(username);
 
         if(!u.isPresent() || !BCrypt.checkpw(password, u.get().getPassword())){
             throw new AuthenticationException("Invalid username or password");
@@ -66,30 +61,5 @@ public class UserServices implements UserServicesInterface{
 
         return u.get();
     }
-
-    @Override
-    public Void deleteUser(Long id) throws AuthenticationException{
-        Optional<User> u = userRepository.findById(id);
-
-        if(!u.isPresent()){
-            throw new AuthenticationException("Invalid user");
-        }
-
-        userRepository.delete(u.get());
-        return null;
-    }
-
-    @Override
-    public Void deleteUser(String username) throws AuthenticationException {
-        Optional<User> u = userRepository.findByUsername(username);
-
-        if(!u.isPresent()){
-            throw new AuthenticationException("Invalid user");
-        }
-
-        userRepository.delete(u.get());
-        return null;
-    }
-
-       
+    
 }

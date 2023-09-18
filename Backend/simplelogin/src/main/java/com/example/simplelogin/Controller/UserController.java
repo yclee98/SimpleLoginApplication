@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.simplelogin.Model.User.User;
-import com.example.simplelogin.Model.User.UserServicesInterface;
+import com.example.simplelogin.Model.User.UserServiceInterface;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
     
     @Autowired
-    private final UserServicesInterface userServices;
+    private final UserServiceInterface userServices;
 
-    public UserController(UserServicesInterface userServices){
+    public UserController(UserServiceInterface userServices){
         this.userServices = userServices;
     }
 

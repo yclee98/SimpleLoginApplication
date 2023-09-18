@@ -17,16 +17,6 @@ public class JWTService implements JWTServiceInterface{
     @Value("${jwt.api.key}")
     private String API_SECRET_KEY;
     private long TOKEN_VALIDITY = 2*60*60*1000;
-    
-    private Claims decodeToken(String token){
-        try{
-            Claims claims = Jwts.parser().setSigningKey(API_SECRET_KEY)
-                .parseClaimsJws(token).getBody();           
-            return claims;            
-        }catch(Exception e){
-            throw new AuthenticationException("Invalid/expired token");
-        }
-    }
 
     @Override
     public String generateJWTToken(User user) {
@@ -42,7 +32,17 @@ public class JWTService implements JWTServiceInterface{
             .claim("role",user.getRole())
             .compact();
         return token;
-    }   
+    }  
+    
+    private Claims decodeToken(String token){
+        try{
+            Claims claims = Jwts.parser().setSigningKey(API_SECRET_KEY)
+                .parseClaimsJws(token).getBody();           
+            return claims;            
+        }catch(Exception e){
+            throw new AuthenticationException("Invalid/expired token");
+        }
+    }
 
     @Override
     public boolean validateToken(String token){

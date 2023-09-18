@@ -17,23 +17,24 @@ import com.example.simplelogin.APIRequestResponse.ErrorResponse;
 import com.example.simplelogin.APIRequestResponse.LoginRequest;
 import com.example.simplelogin.APIRequestResponse.RegisterRequest;
 import com.example.simplelogin.APIRequestResponse.ResponseInterface;
+import com.example.simplelogin.Model.Authentication.AuthenticationService;
+import com.example.simplelogin.Model.Authentication.AuthenticationServiceInterface;
 import com.example.simplelogin.Model.JWT.JWTService;
 import com.example.simplelogin.Model.JWT.JWTServiceInterface;
 import com.example.simplelogin.Model.User.User;
-import com.example.simplelogin.Model.User.UserServicesInterface;
 
 @RestController
 @RequestMapping("/api/authentication")
 @CrossOrigin(origins ="${cors.allow}")
 public class AuthenticationController {
     @Autowired
-    private final UserServicesInterface userServices;
+    private final AuthenticationServiceInterface authenticationService;
 
     @Autowired
     private final JWTServiceInterface jwtService;
 
-    public AuthenticationController(UserServicesInterface userServices,JWTService jwtService){
-        this.userServices = userServices;
+    public AuthenticationController(AuthenticationService authenticationService,JWTService jwtService){
+        this.authenticationService = authenticationService;
         this.jwtService = jwtService;
     }
 
@@ -45,7 +46,7 @@ public class AuthenticationController {
         String role = request.getRole();
 
         try{
-            User u = userServices.registerUser(name, username, password, role);
+            User u = authenticationService.registerUser(name, username, password, role);
             ResponseInterface r = new AuthenticatedResponse(u.getName(), u.getUsername(), u.getRole(), jwtService.generateJWTToken(u));
             return new ResponseEntity<>(r, HttpStatus.OK);
         }catch(Exception e){
@@ -60,7 +61,7 @@ public class AuthenticationController {
         String password = request.getPassword();
 
         try{
-            User u = userServices.validateUser(username, password);        
+            User u = authenticationService.validateUser(username, password);        
             ResponseInterface r = new AuthenticatedResponse(u.getName(), u.getUsername(), u.getRole(), jwtService.generateJWTToken(u));
             return new ResponseEntity<>(r, HttpStatus.OK);
         }catch(Exception e){
