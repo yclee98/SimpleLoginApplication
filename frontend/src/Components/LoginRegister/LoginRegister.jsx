@@ -7,6 +7,7 @@ import { useNavigate  } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useLocalStorage } from '../../Service/LocalStorageService';
 import { loginAuthenticationRequest, registerAuthenticaionRequest } from '../../Service/AuthenticationService';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 
 const LoginRegister = () => {
@@ -17,6 +18,7 @@ const LoginRegister = () => {
   const [, setUsername] = useLocalStorage("", "username");
   const [, setName] = useLocalStorage("", "name");
   const [, setRole] = useLocalStorage("", "role");
+  const [isLoading, setIsLoading] = useState(false);
   
   const navigate = useNavigate();
 
@@ -32,6 +34,7 @@ const LoginRegister = () => {
   };
 
   function handleLoginSubmitClick(username, password){
+    setIsLoading(true)
     loginAuthenticationRequest(username, password).then(([data])=>{
     if(!jwt){ //when jwt is null
       setJwt(data["token"]);
@@ -41,10 +44,13 @@ const LoginRegister = () => {
     }
     }).catch((message)=>{
       alert("Error: " + message);
+    }).finally(()=>{
+      setIsLoading(false);
     })
   };
 
   function handleRegisterSubmitClick(username, password, name, role){
+    setIsLoading(true)
     registerAuthenticaionRequest(username, password, name, role).then(([data])=>{
     if(!jwt){ //when jwt is null
       setJwt(data["token"]);
@@ -55,11 +61,14 @@ const LoginRegister = () => {
         
     }).catch((message)=>{
       alert("Error: " + message);
+    }).finally(()=>{
+      setIsLoading(false);
     })
   };
 
   return (
     <>
+      {isLoading ? <LoadingSpinner/>:<></>}
       <div className='container'>
         <div className='headers-container'>
           <div className='header'>

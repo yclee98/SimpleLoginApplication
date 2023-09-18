@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocalStorage } from '../../Service/LocalStorageService';
 import {Navigate} from 'react-router-dom';
 import { validateRole, validateToken } from '../../Service/AuthenticationService';
+import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 
 // only authenticated users are allowed to be inside private route
 const PrivateRoute = (props) => {
@@ -27,7 +28,7 @@ const PrivateRoute = (props) => {
   }, []);
 
   if (isValid === null || isValidRole === null)
-    return (<div>Loading...</div>)
+    return <LoadingSpinner/>
   if (role==="false" && isValid === true)
     return children
   if (role==="true" && isValidRole === true)
