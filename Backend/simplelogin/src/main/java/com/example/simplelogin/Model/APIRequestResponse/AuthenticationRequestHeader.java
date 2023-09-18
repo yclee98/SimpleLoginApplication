@@ -1,4 +1,4 @@
-package com.example.simplelogin.APIRequestResponse;
+package com.example.simplelogin.Model.APIRequestResponse;
 
 public class AuthenticationRequestHeader {
     private String authorization;

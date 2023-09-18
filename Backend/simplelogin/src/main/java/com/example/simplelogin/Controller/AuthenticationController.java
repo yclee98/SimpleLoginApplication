@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.simplelogin.APIRequestResponse.AuthenticatedResponse;
-import com.example.simplelogin.APIRequestResponse.AuthenticationRequestHeader;
-import com.example.simplelogin.APIRequestResponse.ErrorResponse;
-import com.example.simplelogin.APIRequestResponse.LoginRequest;
-import com.example.simplelogin.APIRequestResponse.RegisterRequest;
-import com.example.simplelogin.APIRequestResponse.ResponseInterface;
+import com.example.simplelogin.Model.APIRequestResponse.AuthenticatedResponse;
+import com.example.simplelogin.Model.APIRequestResponse.AuthenticationRequestHeader;
+import com.example.simplelogin.Model.APIRequestResponse.ErrorResponse;
+import com.example.simplelogin.Model.APIRequestResponse.LoginRequest;
+import com.example.simplelogin.Model.APIRequestResponse.RegisterRequest;
+import com.example.simplelogin.Model.APIRequestResponse.ResponseInterface;
 import com.example.simplelogin.Model.Authentication.AuthenticationService;
 import com.example.simplelogin.Model.Authentication.AuthenticationServiceInterface;
 import com.example.simplelogin.Model.JWT.JWTService;
@@ -72,7 +72,7 @@ public class AuthenticationController {
     }
 
     @GetMapping("/validatetoken")
-    public ResponseEntity<HttpStatus> validateToken(@RequestHeader("authorization") AuthenticationRequestHeader header){
+    public ResponseEntity<String> validateToken(@RequestHeader("authorization") AuthenticationRequestHeader header){
         String authorizationHeader = header.getAuthorization();  
         if(authorizationHeader != null){
             String[] parts = authorizationHeader.split(" ");
@@ -81,15 +81,15 @@ public class AuthenticationController {
                 String token = parts[1];
 
                 if(jwtService.validateToken(token)){
-                    return ResponseEntity.ok(HttpStatus.OK);
+                    return ResponseEntity.ok("Authorized");
                 }
             }    
         }            
-        return ResponseEntity.ok(HttpStatus.UNAUTHORIZED);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
     }
     
     @GetMapping("/validaterole")
-    public ResponseEntity<HttpStatus> validateRole(@RequestHeader("authorization") AuthenticationRequestHeader header){
+    public ResponseEntity<String> validateRole(@RequestHeader("authorization") AuthenticationRequestHeader header){
         String authorizationHeader = header.getAuthorization();       
             
         if(authorizationHeader != null){
@@ -99,10 +99,10 @@ public class AuthenticationController {
                 String token = parts[1];
 
                 if(jwtService.hasManagerRole(token)){
-                    return ResponseEntity.ok(HttpStatus.OK);
+                    return ResponseEntity.ok("Authorized");
                 }
             }    
         }            
-        return ResponseEntity.ok(HttpStatus.UNAUTHORIZED);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
     }
 }
