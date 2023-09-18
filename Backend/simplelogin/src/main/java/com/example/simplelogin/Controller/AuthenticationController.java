@@ -1,8 +1,5 @@
 package com.example.simplelogin.Controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +21,6 @@ import com.example.simplelogin.Model.JWT.JWTService;
 import com.example.simplelogin.Model.JWT.JWTServiceInterface;
 import com.example.simplelogin.Model.User.User;
 import com.example.simplelogin.Model.User.UserServicesInterface;
-
-import io.jsonwebtoken.Header;
 
 @RestController
 @RequestMapping("/api/authentication")

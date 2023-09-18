@@ -6,8 +6,11 @@ COPY ./frontend/package.json .
 
 RUN npm install
 
-COPY ./frontend .
+RUN npm install -g serve
+
+COPY ./frontend/build ./build
 
 EXPOSE 3000
 
-CMD ["npm", "start"]
+# CMD ["npm", "start"]
+CMD serve -s build
