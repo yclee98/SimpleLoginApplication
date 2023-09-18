@@ -36,32 +36,28 @@ const LoginRegister = () => {
   function handleLoginSubmitClick(username, password){
     setIsLoading(true)
     loginAuthenticationRequest(username, password).then(([data])=>{
-    if(!jwt){ 
-      setJwt(data["token"]);
-      setUsername(data["username"]);
-      setRole(data["role"]);
-      setName(data["name"]);
-    }
-    }).catch((message)=>{
-      alert("Error: " + message);
-    }).finally(()=>{
-      setIsLoading(false);
+        setJwt(data["token"]);
+        setUsername(data["username"]);
+        setRole(data["role"]);
+        setName(data["name"]);
+      }).catch((message)=>{
+        alert("Error: " + message);
+      }).finally(()=>{
+        setIsLoading(false);
     })
   };
 
   function handleRegisterSubmitClick(username, password, name, role){
     setIsLoading(true)
     registerAuthenticaionRequest(username, password, name, role).then(([data])=>{
-    if(!jwt){ 
-      setJwt(data["token"]);
-      setUsername(data["username"]);
-      setRole(data["role"]);
-      setName(data["name"]);
-    }
-    }).catch((message)=>{
-      alert("Error: " + message);
-    }).finally(()=>{
-      setIsLoading(false);
+        setJwt(data["token"]);
+        setUsername(data["username"]);
+        setRole(data["role"]);
+        setName(data["name"]);
+      }).catch((message)=>{
+        alert("Error: " + message);
+      }).finally(()=>{
+        setIsLoading(false);
     })
   };
 

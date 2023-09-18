@@ -12,7 +12,6 @@ const PrivateRoute = (props) => {
   const [isValidRole, setIsValidRole] = useState(null);
 
   useEffect(()=>{
-    console.log("came")
     validateToken(jwt).then(()=>{
       setIsValid(true);
     }).catch((error)=>{
