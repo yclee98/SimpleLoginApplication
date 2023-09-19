@@ -1,7 +1,7 @@
-package com.example.simplelogin.Model.Authentication;
+package com.example.simplelogin.service;
 
-import com.example.simplelogin.Exception.AuthenticationException;
-import com.example.simplelogin.Model.User.User;
+import com.example.simplelogin.exception.AuthenticationException;
+import com.example.simplelogin.model.User.User;
 
 public interface AuthenticationServiceInterface {
     User validateUser(String username, String password) throws AuthenticationException;

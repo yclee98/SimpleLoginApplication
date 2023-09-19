@@ -1,4 +1,4 @@
-package com.example.simplelogin.Model.User;
+package com.example.simplelogin.model.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

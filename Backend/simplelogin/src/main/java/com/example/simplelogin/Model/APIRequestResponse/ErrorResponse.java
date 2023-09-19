@@ -1,4 +1,4 @@
-package com.example.simplelogin.Model.APIRequestResponse;
+package com.example.simplelogin.model.APIRequestResponse;
 
 public class ErrorResponse implements ResponseInterface{
     private String message;

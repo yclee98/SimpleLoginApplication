@@ -1,4 +1,4 @@
-package com.example.simplelogin.Model.User;
+package com.example.simplelogin.service.imple;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,8 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.simplelogin.Exception.AuthenticationException;
-import com.example.simplelogin.Repository.UserRepositoryInterface;
+import com.example.simplelogin.exception.AuthenticationException;
+import com.example.simplelogin.model.User.User;
+import com.example.simplelogin.repository.UserRepositoryInterface;
+import com.example.simplelogin.service.UserServiceInterface;
 
 @Service
 public class UserService implements UserServiceInterface{

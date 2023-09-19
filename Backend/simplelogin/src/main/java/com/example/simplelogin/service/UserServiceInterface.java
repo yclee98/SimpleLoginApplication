@@ -1,9 +1,10 @@
-package com.example.simplelogin.Model.User;
+package com.example.simplelogin.service;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.example.simplelogin.Exception.AuthenticationException;
+import com.example.simplelogin.exception.AuthenticationException;
+import com.example.simplelogin.model.User.User;
 
 public interface UserServiceInterface {
     List<User> getAllUser();

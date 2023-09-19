@@ -1,9 +1,9 @@
 package com.example.simplelogin;
 
-import com.example.simplelogin.Exception.AuthenticationException;
-import com.example.simplelogin.Model.User.User;
-import com.example.simplelogin.Model.User.UserService;
-import com.example.simplelogin.Repository.UserRepositoryInterface;
+import com.example.simplelogin.exception.AuthenticationException;
+import com.example.simplelogin.model.User.User;
+import com.example.simplelogin.repository.UserRepositoryInterface;
+import com.example.simplelogin.service.imple.UserService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;

@@ -1,4 +1,4 @@
-package com.example.simplelogin.Controller;
+package com.example.simplelogin.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.simplelogin.Model.APIRequestResponse.AuthenticatedResponse;
-import com.example.simplelogin.Model.APIRequestResponse.AuthenticationRequestHeader;
-import com.example.simplelogin.Model.APIRequestResponse.ErrorResponse;
-import com.example.simplelogin.Model.APIRequestResponse.LoginRequest;
-import com.example.simplelogin.Model.APIRequestResponse.RegisterRequest;
-import com.example.simplelogin.Model.APIRequestResponse.ResponseInterface;
-import com.example.simplelogin.Model.Authentication.AuthenticationService;
-import com.example.simplelogin.Model.Authentication.AuthenticationServiceInterface;
-import com.example.simplelogin.Model.JWT.JWTService;
-import com.example.simplelogin.Model.JWT.JWTServiceInterface;
-import com.example.simplelogin.Model.User.User;
+import com.example.simplelogin.model.APIRequestResponse.AuthenticatedResponse;
+import com.example.simplelogin.model.APIRequestResponse.AuthenticationRequestHeader;
+import com.example.simplelogin.model.APIRequestResponse.ErrorResponse;
+import com.example.simplelogin.model.APIRequestResponse.LoginRequest;
+import com.example.simplelogin.model.APIRequestResponse.RegisterRequest;
+import com.example.simplelogin.model.APIRequestResponse.ResponseInterface;
+import com.example.simplelogin.model.User.User;
+import com.example.simplelogin.service.AuthenticationServiceInterface;
+import com.example.simplelogin.service.JWTServiceInterface;
+import com.example.simplelogin.service.imple.AuthenticationService;
+import com.example.simplelogin.service.imple.JWTService;
 
 @RestController
 @RequestMapping("/api/authentication")

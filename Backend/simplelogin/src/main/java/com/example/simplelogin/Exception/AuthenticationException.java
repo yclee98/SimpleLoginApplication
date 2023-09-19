@@ -1,4 +1,4 @@
-package com.example.simplelogin.Exception;
+package com.example.simplelogin.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

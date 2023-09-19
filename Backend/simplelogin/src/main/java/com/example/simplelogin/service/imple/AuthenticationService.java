@@ -1,4 +1,4 @@
-package com.example.simplelogin.Model.Authentication;
+package com.example.simplelogin.service.imple;
 
 import java.util.Optional;
 
@@ -6,9 +6,9 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.simplelogin.Exception.AuthenticationException;
-import com.example.simplelogin.Model.User.User;
-import com.example.simplelogin.Model.User.UserService;
+import com.example.simplelogin.exception.AuthenticationException;
+import com.example.simplelogin.model.User.User;
+import com.example.simplelogin.service.AuthenticationServiceInterface;
 
 @Service
 public class AuthenticationService implements AuthenticationServiceInterface{

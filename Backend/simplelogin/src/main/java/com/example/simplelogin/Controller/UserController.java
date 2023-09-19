@@ -1,4 +1,4 @@
-package com.example.simplelogin.Controller;
+package com.example.simplelogin.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.simplelogin.Model.User.User;
-import com.example.simplelogin.Model.User.UserServiceInterface;
+import com.example.simplelogin.model.User.User;
+import com.example.simplelogin.service.UserServiceInterface;
 
 @RestController
 @RequestMapping("/api/users")

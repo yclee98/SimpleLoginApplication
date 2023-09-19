@@ -1,7 +1,7 @@
-package com.example.simplelogin.Model.JWT;
+package com.example.simplelogin.service;
 
-import com.example.simplelogin.Exception.AuthenticationException;
-import com.example.simplelogin.Model.User.User;
+import com.example.simplelogin.exception.AuthenticationException;
+import com.example.simplelogin.model.User.User;
 
 public interface JWTServiceInterface {
     public String generateJWTToken(User user);

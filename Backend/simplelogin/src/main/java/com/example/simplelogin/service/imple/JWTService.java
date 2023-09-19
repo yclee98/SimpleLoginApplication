@@ -1,12 +1,13 @@
-package com.example.simplelogin.Model.JWT;
+package com.example.simplelogin.service.imple;
 
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.example.simplelogin.Exception.AuthenticationException;
-import com.example.simplelogin.Model.User.User;
+import com.example.simplelogin.exception.AuthenticationException;
+import com.example.simplelogin.model.User.User;
+import com.example.simplelogin.service.JWTServiceInterface;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
