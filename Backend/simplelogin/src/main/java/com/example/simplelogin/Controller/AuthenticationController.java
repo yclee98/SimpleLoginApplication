@@ -70,7 +70,7 @@ public class AuthenticationController {
         }
         
     }
-
+    // do spring security 
     @GetMapping("/validatetoken")
     public ResponseEntity<String> validateToken(@RequestHeader("authorization") AuthenticationRequestHeader header){
         String authorizationHeader = header.getAuthorization();  

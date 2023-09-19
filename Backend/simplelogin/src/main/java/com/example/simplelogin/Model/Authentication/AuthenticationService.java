@@ -27,7 +27,7 @@ public class AuthenticationService implements AuthenticationServiceInterface{
 
         if (name=="" || username=="" || password == "" || role == ""){
             throw new AuthenticationException("Empty fields");
-        }
+        } // use library
 
         username = username.toLowerCase();
 
@@ -42,7 +42,7 @@ public class AuthenticationService implements AuthenticationServiceInterface{
         return u;
     }
 
-    @Override
+    @Override 
     public User validateUser(String username, String password) throws AuthenticationException{
         if (username == null || password == null){
             throw new AuthenticationException("Empty fields");
